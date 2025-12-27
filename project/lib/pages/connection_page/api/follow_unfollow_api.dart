@@ -26,7 +26,7 @@ class FollowUnfollowApi {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        Utils.showToast(responseData['message'] ?? "Success"); // 👈 show message to user
+        Utils.showToast("Subscribed successfully for Free");
         Utils.showLog("Paid Follow Api Response => ${response.body}");
       } else {
         final responseData = jsonDecode(response.body);
