@@ -33,15 +33,15 @@ target 'Runner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
-  # ✅ AGGRESSIVE FIX FOR BITRISE VERSION CONFLICT
-  # We force these pods to match the version in your Podfile.lock exactly.
-  # This stops the 'incompatible versions' error by overriding the plugin requirements.
+  # ✅ AGGRESSIVE VERSION FORCING (Fix for Bitrise)
+  # These must match your local Podfile.lock EXACTLY to prevent conflicts on Bitrise
   pod 'Firebase', '11.4.0'
   pod 'Firebase/Auth', '11.4.0'
   pod 'Firebase/Messaging', '11.4.0'
   pod 'Firebase/Core', '11.4.0'
   pod 'Firebase/Crashlytics', '11.4.0'
   pod 'FirebaseCore', '11.4.0'
+  pod 'GoogleSignIn', '7.1.0'
 
   target 'RunnerTests' do
     inherit! :search_paths
@@ -53,13 +53,7 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
 
-    # Force Firebase versions in the generated Pods project too
-    if target.name.start_with?('Firebase')
-       target.build_configurations.each do |config|
-         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
-       end
-    end
-
+    # Ensure deployment target is consistent
     target.build_configurations.each do |config|
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '$(inherited)',
