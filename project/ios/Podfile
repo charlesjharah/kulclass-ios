@@ -33,6 +33,10 @@ target 'Runner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
+  # ✅ NUCLEAR FIX: Force GoogleSignIn version in the Podfile
+  # This prevents any plugin from demanding 8.0
+  pod 'GoogleSignIn', '7.1.0'
+
   target 'RunnerTests' do
     inherit! :search_paths
   end
