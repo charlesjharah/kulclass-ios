@@ -32,6 +32,17 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # ✅ AGGRESSIVE FIX FOR BITRISE VERSION CONFLICT
+  # We force these pods to match the version in your Podfile.lock exactly.
+  # This stops the 'incompatible versions' error by overriding the plugin requirements.
+  pod 'Firebase', '11.4.0'
+  pod 'Firebase/Auth', '11.4.0'
+  pod 'Firebase/Messaging', '11.4.0'
+  pod 'Firebase/Core', '11.4.0'
+  pod 'Firebase/Crashlytics', '11.4.0'
+  pod 'FirebaseCore', '11.4.0'
+
   target 'RunnerTests' do
     inherit! :search_paths
   end
@@ -41,23 +52,23 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
-    target.build_configurations.each do |config|
 
+    # Force Firebase versions in the generated Pods project too
+    if target.name.start_with?('Firebase')
+       target.build_configurations.each do |config|
+         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+       end
+    end
+
+    target.build_configurations.each do |config|
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '$(inherited)',
-        
-        # ✅ ENABLE THESE PERMISSIONS FOR PERMISSION_HANDLER
         'PERMISSION_CAMERA=1',
         'PERMISSION_MICROPHONE=1',
         'PERMISSION_PHOTOS=1',
       ]
-
-      # Force iOS 14.0 for all pods
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
-      # Disable bitcode for modern builds
       config.build_settings['ENABLE_BITCODE'] = 'NO'
     end
   end
 end
-
-  
