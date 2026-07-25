@@ -318,7 +318,7 @@ class CollectionsTabView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              "\${CustomFormatNumber.convert(controller.giftCollection[index].giftCoin ?? 0)} Coins",
+                              "${CustomFormatNumber.convert(controller.giftCollection[index].giftCoin ?? 0)} Coins",
                               style: AppFontStyle.styleW700(AppColor.primary, 12),
                             ),
                           ),
@@ -332,7 +332,7 @@ class CollectionsTabView extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "X \${CustomFormatNumber.convert(controller.giftCollection[index].total ?? 0)}",
+                                "X ${CustomFormatNumber.convert(controller.giftCollection[index].total ?? 0)}",
                                 style: AppFontStyle.styleW600(AppColor.white, 16),
                               ),
                             ),
