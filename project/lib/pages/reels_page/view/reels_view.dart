@@ -53,7 +53,7 @@ class _ReelsViewIOSState extends State<ReelsViewIOS> {
           'ToProfile',
           onMessageReceived: (JavaScriptMessage message) {
             if (message.message.isNotEmpty) {
-              Utils.showLog("Opening Profile for User ID: \${message.message}");
+              Utils.showLog("Opening Profile for User ID: ${message.message}");
               Get.toNamed(AppRoutes.previewUserProfilePage, arguments: message.message);
             }
           },
